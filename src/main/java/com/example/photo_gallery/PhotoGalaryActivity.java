@@ -8,7 +8,7 @@ public class PhotoGalaryActivity extends SingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
-        return PhotoGalaryFragment.newInstance();
+        return PhotoGalleryFragment.newInstance();
     }
 
 }

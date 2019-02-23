@@ -100,7 +100,7 @@ public class PhotoGalleryFragment extends Fragment {
             } catch (IOException e) {
                 Log.e(TAG, "Failed to fetch URL: ", e);
             }*/
-            new FlickrFetchr().fetchItems();
+
 
             //return null;
             return new FlickrFetchr().fetchItems();

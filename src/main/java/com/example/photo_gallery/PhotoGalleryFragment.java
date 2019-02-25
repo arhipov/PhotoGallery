@@ -28,7 +28,7 @@ import java.util.List;
 
 import static android.app.DownloadManager.*;
 
-public class PhotoGalleryFragment extends Fragment {
+public class PhotoGalleryFragment extends VisibleFragment {
     private static final String TAG="PhotoGalleryFragment";
     private RecyclerView mPhotoRecyclerView;
     private List<GalleryItem> mItems= new ArrayList<>();
@@ -158,8 +158,10 @@ public class PhotoGalleryFragment extends Fragment {
         }
     }
 
-    private class PhotoHolder extends RecyclerView.ViewHolder{
+    private class PhotoHolder extends RecyclerView.ViewHolder
+    implements View.OnClickListener{
         private ImageView mItemImageView;
+        private GalleryItem mGalleryItem;
         //private TextView mTitleTextView;
 
         public PhotoHolder(@NonNull View itemView) {
@@ -167,6 +169,7 @@ public class PhotoGalleryFragment extends Fragment {
 
           //  mTitleTextView=(TextView) itemView;
             mItemImageView=(ImageView) itemView.findViewById(R.id.item_image_view);
+            itemView.setOnClickListener(this);
         }
 
        /* public void bindGalleryItem(GalleryItem item){
@@ -176,6 +179,16 @@ public class PhotoGalleryFragment extends Fragment {
        public void bindDrawable(Drawable drawable){
            mItemImageView.setImageDrawable(drawable);
        }
+
+       public void bindGalleryItem(GalleryItem galleryItem){
+           mGalleryItem = galleryItem;
+       }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent= new Intent(Intent.ACTION_VIEW, mGalleryItem.getPhotoPageUri());
+            startActivity(intent);
+        }
     }
 
     private class PhotoAdapter extends RecyclerView.Adapter<PhotoHolder>{
@@ -199,6 +212,7 @@ public class PhotoGalleryFragment extends Fragment {
         public void onBindViewHolder(@NonNull PhotoHolder photoHolder, int i) {
             GalleryItem galleryItem= mGalleryItems.get(i);
             //photoHolder.bindGalleryItem(galleryItem);
+            photoHolder.bindGalleryItem(galleryItem);
             Drawable placeholder = getResources().getDrawable(R.drawable.bill_up_close);
             photoHolder.bindDrawable(placeholder);
             mThumbnailDownloader.queueThumbnail(photoHolder, galleryItem.getUrl());
